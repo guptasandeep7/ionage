@@ -1,18 +1,19 @@
 package com.example.ionage.viewmodel
 
-import android.app.appsearch.SearchResult
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.ionage.model.SearchResults
 import com.example.ionage.repo.SearchRepo
 import com.example.ionage.util.ApiResponse
 import kotlinx.coroutines.launch
 
 class SearchViewModel : ViewModel() {
 
-    private var _searchData: MutableLiveData<ApiResponse<SearchResult>> = MutableLiveData()
+    var _searchData: MutableLiveData<ApiResponse<SearchResults>> = MutableLiveData()
 
-    fun getSearch(text: String): MutableLiveData<ApiResponse<SearchResult>> {
+
+    fun getSearch(text: String): MutableLiveData<ApiResponse<SearchResults>> {
         viewModelScope.launch {
             _searchData = SearchRepo().postSearch(text)
         }

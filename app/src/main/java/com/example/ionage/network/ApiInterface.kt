@@ -1,12 +1,18 @@
 package com.example.ionage.network
 
-import android.app.appsearch.SearchResult
-import com.example.ionage.util.ApiResponse
+
+import com.example.ionage.model.SearchResults
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 interface ApiInterface {
-    fun search(text: String): ApiResponse<SearchResult> {
-        //TODO
-    }
+    @GET("/?")
+    fun search(
+        @Query("s") text: String,
+        @Query("apikey") apikey: String
+    ): Call<SearchResults>
+
 
 }
