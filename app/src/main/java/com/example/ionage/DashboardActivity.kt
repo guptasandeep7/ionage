@@ -10,14 +10,10 @@ import com.example.ionage.databinding.ActivityDashBinding
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDashBinding
-    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityDashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        navController=Navigation.findNavController(this,R.id.nav_controller)
-        setupWithNavController(binding.bottomNavigationView, navController)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.ionage.dash
 
 import android.view.LayoutInflater
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -13,14 +14,14 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
     var searchList = mutableListOf<SearchResult>();
 
     fun updateList(searchResults: SearchResults) {
-        searchList = searchResults.Search.toMutableList()
+        searchList = searchResults.Search as MutableList<SearchResult>
         notifyDataSetChanged()
     }
 
     private var mlistner: onItemClickListener? = null
 
     interface onItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(MovieId: String)
     }
 
     fun setOnItemClickListener(listener: onItemClickListener) {
@@ -34,12 +35,6 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
             binding.title.text = movie.Title
             binding.year.text = movie.Year
         }
-
-        init {
-            itemView.setOnClickListener {
-                listener.onItemClick(adapterPosition)
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -48,7 +43,13 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(searchList[position])
+        val movie = searchList[holder.adapterPosition]
+        holder.bind(movie)
+
+        holder.itemView.setOnClickListener {
+            mlistner?.onItemClick(movie.imdbID)
+        }
+
     }
 
     override fun getItemCount(): Int {

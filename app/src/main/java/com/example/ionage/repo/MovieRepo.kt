@@ -1,34 +1,32 @@
 package com.example.ionage.repo
 
-
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.ionage.model.SearchResults
+import com.example.ionage.model.SearchResult
 import com.example.ionage.network.ServiceBuilder
 import com.example.ionage.util.ApiResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SearchRepo {
+class MovieRepo {
 
-    private val data = MutableLiveData<ApiResponse<SearchResults>>()
+    private val data = MutableLiveData<ApiResponse<SearchResult>>()
 
-    suspend fun postSearch(
-        text: String,
-        pageno:Int
-    ): MutableLiveData<ApiResponse<SearchResults>> {
+    fun getMovieDetails(
+        text: String
+    ): MutableLiveData<ApiResponse<SearchResult>> {
 
         val token = "b20ccbf5"
-        val call = ServiceBuilder.buildService().search(text,pageno,token)
+        val call = ServiceBuilder.buildService().getMovieDetails(text, token)
 
         data.postValue(ApiResponse.Loading())
 
         try {
-            call.enqueue(object : Callback<SearchResults?> {
+            call.enqueue(object : Callback<SearchResult?> {
                 override fun onResponse(
-                    call: Call<SearchResults?>,
-                    response: Response<SearchResults?>
+                    call: Call<SearchResult?>,
+                    response: Response<SearchResult?>
                 ) {
                     if (response.isSuccessful) {
                         Log.d("REPO", "onResponse: ${response.body()}")
@@ -38,7 +36,7 @@ class SearchRepo {
                     }
                 }
 
-                override fun onFailure(call: Call<SearchResults?>, t: Throwable) {
+                override fun onFailure(call: Call<SearchResult?>, t: Throwable) {
                     data.postValue(ApiResponse.Error("Something went wrong!! ${t.message}"))
                 }
             })

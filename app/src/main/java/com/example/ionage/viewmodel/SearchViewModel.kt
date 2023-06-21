@@ -11,12 +11,14 @@ import kotlinx.coroutines.launch
 class SearchViewModel : ViewModel() {
 
     var _searchData: MutableLiveData<ApiResponse<SearchResults>> = MutableLiveData()
-
+    var pageno = 1;
 
     fun getSearch(text: String): MutableLiveData<ApiResponse<SearchResults>> {
         viewModelScope.launch {
-            _searchData = SearchRepo().postSearch(text)
+            _searchData = SearchRepo().postSearch(text,pageno)
         }
         return _searchData
     }
+
+
 }
